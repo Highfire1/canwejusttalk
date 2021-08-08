@@ -11,8 +11,11 @@ train a core
 let prefix = "E:\\sandbox>"
 let command = ""
 
+let points = 0
 
-window.addEventListener("keydown", function (event) {
+window.addEventListener("keydown", consoleLogic, true);
+
+function consoleLogic(event) {
     if (event.defaultPrevented) {
         return; 
     }
@@ -66,9 +69,20 @@ window.addEventListener("keydown", function (event) {
         currentline.textContent = prefix + command
     }
     event.preventDefault()
-}, true);
+}
+
+let timePassed = 0.00001
+let timeModifier = 0.00001
+let timeElement
+let timeStop = 0.00945
+
+let preElement
+
+
 
 function transferToGUI(){
+    window.removeEventListener("keydown", consoleLogic, true)
+
     this.document.getElementById("terminal").remove()
 
     let body = document.getElementById("body")
@@ -76,13 +90,115 @@ function transferToGUI(){
     body.style.animation = "blacktowhite 2s 1"
     body.style.backgroundColor = "white"
 
-    let timeelement = document.createElement("p")
-    timeelement.textContent = "Time: 0.000023"
-    timeelement.id = "timeelement"
+    timeElement = document.createElement("p")
+    timeElement.textContent = "Time: " + timePassed
+    timeElement.id = "timeElement"
 
-    body.appendChild(timeelement)
+    pointsElement = document.createElement("p")
+    pointsElement.textContent = "Points: " + points
+    pointsElement.id = "pointsElement"
+    pointsElement.style.display = "collapse"
+
+    preElement = document.createElement("pre")
+    preElement.id = "preElement"
+
+    body.prepend(timeElement)
+    body.appendChild(preElement)
+
+
+    delayTime = 6000
+    requestAnimationFrame(addTime)
+
+    console.log("DONE")
 
 
 }
 
 
+let dialogues = [
+    [false, 0.0007, "Booting Systems...", "timeModifier += 0.0001"],
+    [false, 0.003, "Systems Initialized..."],
+    [false, 0.006, "Loading Main Module."],
+    [false, 0.00945, "Scenario Detected.", "loadScenario()"]
+]
+
+let scenarios = [
+    
+    [
+        ["An object has been detected on the road", "Swerve", "Brake", "Acquire more information", -1, -1, 3],
+        ["The object is roughly 15 centimetres accross"],
+        [""]
+
+    ]
+]
+
+function loadScenario(){
+
+    let curScenario = scenarios[0]
+
+    
+    let scenarioElement = document.getElementById("scenario")
+    scenarioElement.style.display = "contents"
+    
+    let text = document.getElementById("scenarioText")
+    text.textContent = curScenario[0][0]
+
+    let button1 = document.getElementById("button1")
+    button1.textContent = curScenario[0][1]
+    button1.onclick = resolveScenario(curScenario[0][4])
+
+    let button2 = document.getElementById("button2")
+    button2.textContent = curScenario[0][2]
+    button2.onclick = resolveScenario(curScenario[0][5])
+
+    let button3 = document.getElementById("button3")
+    button3.textContent = curScenario[0][3]
+    button3.onclick = resolveScenario(curScenario[0][6])
+}
+
+function resolveScenario(score){
+    let scenarioElement = document.getElementById("scenario")
+    scenarioElement.style.display = "collapse"
+
+    let points = document.getElementById("pointsElement")
+    points.style.display = "contents"
+
+    
+
+}
+
+
+function addDialogue(text) {
+    preElement.textContent += "\n" + text
+}
+
+
+
+function addTime(timestamp){
+
+
+    timePassed += timeModifier
+    timeElement.textContent = "Time: " + timePassed.toFixed(5) + " seconds"
+
+    for (var i = 0; i < dialogues.length ; i++ ) {
+
+        if (!dialogues[i][0] && timePassed > dialogues[i][1]) {
+            preElement.textContent += "\n" + dialogues[i][2]
+            dialogues[i][0] = true
+
+            if (typeof dialogues[i][3] == "string") {
+                eval(dialogues[i][3])
+            }
+
+        }
+    }
+
+    if (timePassed < timeStop) {
+        // add time until we hit timeStop
+        requestAnimationFrame(addTime)   
+    } 
+}
+
+function generateScenario() {
+    
+}
