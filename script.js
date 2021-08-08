@@ -166,14 +166,11 @@ function resolveScenario(score){
     scenarioElement.style.display = "none"
 
     let pointsEle = document.getElementById("pointsElement")
-    points.style.display = "contents"
+    pointsEle.style.display = "contents"
 
     points += score
 
-    pointsEle.textContent = points
-
-    
-
+    pointsEle.textContent = "Points: " + points
 }
 
 
