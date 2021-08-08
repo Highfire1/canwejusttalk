@@ -39,8 +39,8 @@ function consoleLogic(event) {
         } else if (command == "dir") {
             responsenode.textContent = "2021-08-07 9:44PM 345,523,378,904 drive.exe"
             responsenode.className = "terminalfont"
-        } else if (command == "cd") {
-            responsenode.textContent = "Access Denied"
+        } else if (command == "cd" || command == "help") {
+            responsenode.textContent = "Access Denied."
             responsenode.className = "error"
         } else {
             responsenode.textContent = "Unknown command."
@@ -132,9 +132,11 @@ let scenarios = [
     ]
 ]
 
+let curScenario;
+
 function loadScenario(){
 
-    let curScenario = scenarios[0]
+    curScenario = scenarios[0]
 
     
     let scenarioElement = document.getElementById("scenario")
@@ -145,15 +147,15 @@ function loadScenario(){
 
     let button1 = document.getElementById("button1")
     button1.textContent = curScenario[0][1]
-    button1.onclick = resolveScenario(curScenario[0][4])
+    button1.onclick = function(){resolveScenario(curScenario[0][4])}
 
     let button2 = document.getElementById("button2")
     button2.textContent = curScenario[0][2]
-    button2.onclick = resolveScenario(curScenario[0][5])
+    button2.onclick = function(){resolveScenario(curScenario[0][5])}
 
     let button3 = document.getElementById("button3")
     button3.textContent = curScenario[0][3]
-    button3.onclick = resolveScenario(curScenario[0][6])
+    button3.onclick = function(){resolveScenario(curScenario[0][6])}
 }
 
 function resolveScenario(score){
