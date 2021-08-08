@@ -98,10 +98,12 @@ function transferToGUI(){
     pointsElement.textContent = "Points: " + points
     pointsElement.id = "pointsElement"
     pointsElement.style.display = "collapse"
+    
 
     preElement = document.createElement("pre")
     preElement.id = "preElement"
 
+    body.prepend(pointsElement)
     body.prepend(timeElement)
     body.appendChild(preElement)
 
@@ -159,11 +161,16 @@ function loadScenario(){
 }
 
 function resolveScenario(score){
+    console.log("score is " + score)
     let scenarioElement = document.getElementById("scenario")
-    scenarioElement.style.display = "collapse"
+    scenarioElement.style.display = "none"
 
-    let points = document.getElementById("pointsElement")
+    let pointsEle = document.getElementById("pointsElement")
     points.style.display = "contents"
+
+    points += score
+
+    pointsEle.textContent = points
 
     
 
