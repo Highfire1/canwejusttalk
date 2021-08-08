@@ -1,0 +1,27 @@
+body {
+    background-color: black;
+}
+
+
+
+.terminalfont{
+    color: white;
+    font-size: 25px;
+    margin:0;
+    white-space: nowrap;
+}
+
+.error{
+    color: red;
+    font-size: 25px;
+    margin:0
+}
+
+@keyframes blacktowhite {
+    from {background-color: black;}
+    to {background-color: white;}
+  }
+
+p {
+    font-size: 25px;
+}
